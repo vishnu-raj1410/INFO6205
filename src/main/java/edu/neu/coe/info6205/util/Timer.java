@@ -55,10 +55,21 @@ public class Timer {
     public <T, U> double repeat(int n, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
         logger.trace("repeat: with " + n + " runs");
         // FIXME: note that the timer is running when this method is called and should still be running when it returns. by replacing the following code
-         return 0;
-        // END 
+        pause();
+        for (int i=0 ; i<n ; i++){
+            T t = supplier.get();
+            if (preFunction != null) {
+                t = preFunction.apply(supplier.get());
+            }
+            resume();
+            U u = function.apply(t);
+            pauseAndLap();
+            if(postFunction != null) {
+                postFunction.accept(u);
+            }
+        }
+        return meanLapTime();
     }
-
     /**
      * Stop this Timer and return the mean lap time in milliseconds.
      *
@@ -175,7 +186,7 @@ public class Timer {
      */
     private static long getClock() {
         // FIXME by replacing the following code
-         return 0;
+        return System.nanoTime();
         // END 
     }
 
@@ -188,7 +199,7 @@ public class Timer {
      */
     private static double toMillisecs(long ticks) {
         // FIXME by replacing the following code
-         return 0;
+        return ticks*Math.pow(10 , -6);
         // END 
     }
 

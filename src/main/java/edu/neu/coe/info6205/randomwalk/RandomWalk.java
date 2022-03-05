@@ -21,7 +21,10 @@ public class RandomWalk {
      */
     private void move(int dx, int dy) {
         // FIXME do move by replacing the following code
-         throw new RuntimeException("Not implemented");
+         //throw new RuntimeException("Not implemented");
+        // below is the fixed code, x and y changes depending upon the values of dx and dy respectively
+        x += dx;
+        y += dy;
         // END 
     }
 
@@ -32,7 +35,12 @@ public class RandomWalk {
      */
     private void randomWalk(int m) {
         // FIXME
-        // END 
+        // below we make a random move for m number of steps through iteration
+        for(int i= 0; i<m; i++)
+        {
+            randomMove();
+        }
+        //END
     }
 
     /**
@@ -42,7 +50,9 @@ public class RandomWalk {
     private void randomMove() {
         boolean ns = random.nextBoolean();
         int step = random.nextBoolean() ? 1 : -1;
-        move(ns ? step : 0, ns ? 0 : step);
+        /*interchanged the below parameters considering the variable ns as north-south, so when ns
+         is true take a step in y and if ns is false take a step in x */
+        move(ns ? 0 : step,ns ? step : 0);
     }
 
     /**
@@ -52,8 +62,10 @@ public class RandomWalk {
      */
     public double distance() {
         // FIXME
-        // END
-        return 0;
+        // the formula is based on the distance of a point(x,y) from origin
+        float dist= (float) Math.sqrt((x*x) + (y*y));
+        return dist;
+        //END
     }
 
     /**
@@ -74,13 +86,33 @@ public class RandomWalk {
     }
 
     public static void main(String[] args) {
-        if (args.length == 0)
-            throw new RuntimeException("Syntax: RandomWalk steps [experiments]");
-        int m = Integer.parseInt(args[0]);
-        int n = 30;
-        if (args.length > 1) n = Integer.parseInt(args[1]);
-        double meanDistance = randomWalkMulti(m, n);
-        System.out.println(m + " steps: " + meanDistance + " over " + n + " experiments");
+        /*
+            changed the main program such that RandomWalk.java runs as a standalone program by running the
+            program for random values of steps and getting the mean distance over 50 experiment
+            and also can be run by the RandomWalkTest.java for the unit tests.
+         * */
+        Random rand = new Random();
+        int m = 0;
+        int n = 0;
+        if (args.length == 0){
+            //throw new RuntimeException("Syntax: RandomWalk steps [experiments]");
+            for(int i = 0; i < 10; i++){
+                m =  rand.nextInt(10000)+1;
+                n = 50;
+                double meanDistance = randomWalkMulti(m, n);
+                System.out.println(m + " steps: " + meanDistance + " over " + n + " experiments");
+            }
+        }
+        else{
+            m = Integer.parseInt(args[0]);
+            n = 30;
+            if (args.length > 1) n = Integer.parseInt(args[1]);
+            double meanDistance = randomWalkMulti(m, n);
+            System.out.println(m + " steps: " + meanDistance + " over " + n + " experiments");
+        }
+
+
+
     }
 
 }

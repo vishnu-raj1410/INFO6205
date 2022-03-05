@@ -35,12 +35,39 @@ public class ThreeSumQuadratic implements ThreeSum {
      * @param j the index of the middle value.
      * @return a Triple such that
      */
-    public List<Triple> getTriples(int j) {
+
+    public List<Triple> getTriples(int j)
+    {
         List<Triple> triples = new ArrayList<>();
         // FIXME : implement getTriples
-        // END 
+        for (int i = 0; i < length; i++)
+        {
+            int x = i + 1; // the next index i.e. the middle index  of the triples
+            int k = length - 1; //the last index
+            while (x < k)
+            {
+                if (a[i] + a[x] + a[k] == 0 && ( x==j ))
+                {
+                    triples.add(new Triple(a[i], a[x], a[k]));
+                    x++;
+                    k--;
+                }
+                else if (a[i] + a[x] + a[k] < 0)
+                {
+                    x++;
+                }
+                else
+                {
+                    k--;
+                }
+            }
+        }
         return triples;
+        // END
+
     }
+
+
 
     private final int[] a;
     private final int length;
