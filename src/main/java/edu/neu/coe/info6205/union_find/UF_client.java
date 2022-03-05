@@ -16,7 +16,7 @@ public class UF_client {
             if (n == -1) {
                 System.exit(1);
             }
-            int m=0; // total of all connection and take there average
+            int m=0;
             for (int i = 0; i < trials; i++) {
                 m += count(n);
             }
